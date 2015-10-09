@@ -22,9 +22,21 @@ function getData() {
 
 var body = getData();
 
-var connectionString = process.env.DATABASE_URL || 'postgres://localhost:5432/todo';
+var config = {
+    host: 'ec2-54-225-201-25.compute-1.amazonaws.com',
+    port: 5432,
+    database: 'deg7cmst5oa3fg',
+    user: 'pfswqkxqtxkgre',
+    password: '8mEq-8_QcqoDkg9CZ7xMeuInzy',
+    ssl: true
+};
+var connectionString = process.env.DATABASE_URL || 'postgres://pfswqkxqtxkgre:8mEq-8_QcqoDkg9CZ7xMeuInzy@ec2-54-225-201-25.compute-1.amazonaws.com:5432?ssl=true/deg7cmst5oa3fg';
 var client = new pg.Client(connectionString);
 client.connect();
+var query = client.query('CREATE TABLE teamlist(id SERIAL PRIMARY KEY, team VARCHAR(40))');
+query.on('end', function () {
+    client.end();
+});
 
 
 //getData();

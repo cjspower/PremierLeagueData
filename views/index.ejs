@@ -1,8 +1,17 @@
 <% include header.ejs %>
     <% include navibar.ejs %>
-    <div class="well jumbotron">
-        <h1><%= title %></h1>
-        <p>This is a simple hero unit, a simple jumbotron-style component for calling extra attention to featured content or information.</p>
-        <p><a class="btn btn-primary btn-lg" href="#" role="button">Learn more</a></p>
+<div id="myCarousel" class="carousel" data-ride="carousel">
+    <!-- Indicators -->
+    <div class="carousel-inner" role="listbox">
+        <div class="item active">
+            <img class="first-slide" src="/images/index_pic.jpg">
+            <div class="container">
+                <div class="carousel-caption">
+                    <h1>All you want to know about premier league.</h1>
+                    <p><a class="btn btn-lg btn-primary" href="#" role="button">More Info</a></p>
+                </div>
+            </div>
+        </div>
     </div>
+</div><!-- /.carousel -->
 <% include footer.ejs %>
