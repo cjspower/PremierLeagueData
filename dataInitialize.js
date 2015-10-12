@@ -1,42 +1,84 @@
-var https = require('https');
 var pg = require('pg');
+var fs = require('fs');
+var parse = require('csv-parse');
 
-function getData() {
-    console.log('get Match data.');
-    var options = {
-        host: 'raw.githubusercontent.com',
-        path: '/openfootball/eng-england/master/2015-16/1-premierleague.yml'
-    };
-    var req = https.get(options, function (res) {
-        console.log('RES STATUS ' + res.statusCode);
-        var bodyChunks = [];
-        res.on('data', function(chunk){
-            bodyChunks.push(chunk);
-        }).on('end',function(){
-            var body = Buffer.concat(bodyChunks);
-            //console.log('BODY '+ body);
-            return body;
-        });
-    })
-}
-
-var body = getData();
-
-var config = {
-    host: 'ec2-54-225-201-25.compute-1.amazonaws.com',
-    port: 5432,
-    database: 'deg7cmst5oa3fg',
-    user: 'pfswqkxqtxkgre',
-    password: '8mEq-8_QcqoDkg9CZ7xMeuInzy',
-    ssl: true
-};
-var connectionString = process.env.DATABASE_URL || 'postgres://pfswqkxqtxkgre:8mEq-8_QcqoDkg9CZ7xMeuInzy@ec2-54-225-201-25.compute-1.amazonaws.com:5432?ssl=true/deg7cmst5oa3fg';
+var connectionString = 'postgres://pfswqkxqtxkgre:8mEq-8_QcqoDkg9CZ7xMeuInzy@ec2-54-225-201-25.compute-1.amazonaws.com:5432/deg7cmst5oa3fg?ssl=true';
 var client = new pg.Client(connectionString);
-client.connect();
-var query = client.query('CREATE TABLE teamlist(id SERIAL PRIMARY KEY, team VARCHAR(40))');
-query.on('end', function () {
-    client.end();
+client.connect(function(err){
+    if(err) {
+        console.log(JSON.stringify(err));
+    }
 });
 
+fs.readFile('./DataSet/2013-14.csv', {
+        encoding: 'utf-8'
+    }, function(err, csvData) {
+        if(err) {
+            console.log(err);
+        }
+        parse(csvData, {
+            delimiter: ','
+        }, function(err, data) {
+           if(err) {
+               console.log(err);
+           } else {
+               for(var i = 1;i < data.length;i++) {
 
-//getData();
+                   console.log(data[i][1]);
+                   client.query('INSERT INTO allteam ' +
+                       'VALUES(\'' + data[i][1]+'\');', function(err) {
+                       if(err) {
+                           console.log('error '+err);
+                       }
+                   });
+                    /*
+                   var scores = data[i][3].split('-');
+                   console.log('INSERT INTO allmatches(' +
+                       'id,' +
+                       'matchDate,' +
+                       'homeTeam,' +
+                       'awayTeam,' +
+                       'homeScore,' +
+                       'awayScore,' +
+                       'season' +
+                       ')' +
+                       'VALUES(DEFAULT,' +
+                       '\'' + data[i][0] + '\',' +
+                       '\'' + data[i][1] + '\',' +
+                       '\'' + data[i][2] + '\',' +
+                       scores[0] + ',' +
+                       scores[1] + ',' +
+                           '2011' +
+                       ');');*/
+
+                   var scores = data[i][3].split('-');
+                   client.query('INSERT INTO allmatches(' +
+                       'id,' +
+                       'matchDate,' +
+                       'homeTeam,' +
+                       'awayTeam,' +
+                       'homeScore,' +
+                       'awayScore,' +
+                       'season' +
+                       ')' +
+                       'VALUES(DEFAULT,' +
+                       '\'' + data[i][0] + '\',' +
+                       '\'' + data[i][1] + '\',' +
+                       '\'' + data[i][2] + '\',' +
+                       scores[0] + ',' +
+                       scores[1] + ',' +
+                       '2013' +
+                       ');'
+                   , function(err) {
+                           if(err) {
+                               console.log(err);
+                           }
+                       });
+               }
+           }
+        });
+    });
+
+//query.on('end', function () {
+//    client.end();
+//});

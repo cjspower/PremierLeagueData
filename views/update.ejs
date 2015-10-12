@@ -1,0 +1,76 @@
+<% include header.ejs %>
+<% include navibar.ejs %>
+<div class="container" xmlns="http://www.w3.org/1999/html">
+    <div class="page-header">
+        <h1 style="color:darkgray">Match Update</h1>
+    </div>
+    <div class="panel panel-default">
+        <form id="newmatch" action="/post" method="post">
+        <!-- Default panel contents -->
+        <div class="panel-heading">
+            <h3 class="panel-title">Add a match</h3>
+        </div>
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="input-group">
+                        <span class="input-group-addon" id="basic-addon1">Home Team</span>
+                        <input type="text" class="form-control" id="home" name="home" placeholder="Name of Team" aria-describedby="basic-addon1">
+                    </div>
+                </div><!-- /.col-lg-6 -->
+                <div class="col-lg-6">
+                    <div class="input-group">
+                        <span class="input-group-addon" id="basic-addon1">Away Team</span>
+                        <input type="text" class="form-control" id="away" name="away" placeholder="Name of Team" aria-describedby="basic-addon1">
+                    </div>
+                </div><!-- /.col-lg-6 -->
+            </div><!-- /.row -->
+            <p> &nbsp; </p>
+            <div class="row">
+                <div class="col-lg-3">
+                    <div class="input-group">
+                        <span class="input-group-addon" id="basic-addon1">Home Score</span>
+                        <input type="text" class="form-control" id="hscore" name="hscore" placeholder="Score" aria-describedby="basic-addon1">
+                    </div>
+                </div><!-- /.col-lg-3 -->
+                <div class="col-lg-3">
+                    <div class="input-group">
+                        <span class="input-group-addon" id="basic-addon1">Away Score</span>
+                        <input type="text" class="form-control" id="ascore" name="ascore" placeholder="Score" aria-describedby="basic-addon1">
+                    </div>
+                </div><!-- /.col-lg-3 -->
+                <div class="col-lg-6">
+                    <div class="input-group">
+                        <span class="input-group-addon" id="basic-addon1">Match Date</span>
+                        <input type="text" class="form-control" id="mdate" name="mdate" placeholder="YYYY-MM-DD" aria-describedby="basic-addon1">
+                    </div>
+                </div>
+            </div>
+            <p> &nbsp; </p>
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="input-group">
+                        <span class="input-group-addon" id="basic-addon1"> Season </span>
+                        <input type="text" class="form-control" id="season" name="season" placeholder="YYYY" aria-describedby="basic-addon1">
+                    </div>
+                </div>
+            </div>
+            <p> &nbsp; </p>
+            <div class="row">
+                <div class="col-lg-3">
+                </div>
+                <div class="col-lg-6">
+                    <p>
+                        <button type="submit" class="btn btn-block btn-primary">Submit</button>
+                    </p>
+                </div>
+            </div>
+        </div>
+        </form>
+    </div>
+    <p> &nbsp;</p>
+    <p> &nbsp;</p>
+</div>
+
+
+<% include footer.ejs %>

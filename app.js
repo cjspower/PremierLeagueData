@@ -4,12 +4,24 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var pg = require('pg');
 var late = require('late');
 var https = require('https');
 var routes = require('./routes/index');
-var users = require('./routes/users');
 
 var app = express();
+var connectionString = 'postgres://pfswqkxqtxkgre:8mEq-8_QcqoDkg9CZ7xMeuInzy@ec2-54-225-201-25.compute-1.amazonaws.com:5432/deg7cmst5oa3fg?ssl=true';
+var client = new pg.Client(connectionString);
+
+client.connect(function(err){
+  if(err) {
+    console.log(JSON.stringify(err));
+  }
+});
+
+var matches = require('./routes/matches')(client);
+var update = require('./routes/update')(client);
+var post = require('./routes/post')(client);
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -24,7 +36,9 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', routes);
-app.use('/users', users);
+app.use('/matches', matches);
+app.use('/update', update);
+app.use('/post', post)
 
 //var sched = later.parse.text('every 1 min');
 
@@ -34,6 +48,7 @@ app.use(function(req, res, next) {
   err.status = 404;
   next(err);
 });
+
 
 // error handlers
 
