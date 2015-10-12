@@ -22,6 +22,7 @@ client.connect(function(err){
 var matches = require('./routes/matches')(client);
 var update = require('./routes/update')(client);
 var post = require('./routes/post')(client);
+var teams = require('./routes/teams')(client);
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -36,9 +37,10 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', routes);
+app.use('/team', teams);
 app.use('/matches', matches);
 app.use('/update', update);
-app.use('/post', post)
+app.use('/post', post);
 
 //var sched = later.parse.text('every 1 min');
 

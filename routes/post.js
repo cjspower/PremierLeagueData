@@ -32,7 +32,7 @@ module.exports = function(db) {
                     if(err) {
                         res.render('submitError', {navFirst: "", navUp: 'active', navTeam:'' , errormessage: err.detail});
                     }else {
-                        res.render('index', {navFirst: "", navUp: 'active', navTeam:''});
+                        res.redirect('/matches/'+season);
                     }
                 });
         }else {

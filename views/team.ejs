@@ -1,0 +1,32 @@
+<% include header.ejs %>
+<% include navibar.ejs %>
+<div class="container">
+    <div class="page-header">
+        <h1 style="color:darkgray">All Teams</h1>
+    </div>
+    <div class="panel panel-default">
+        <!-- Default panel contents -->
+        <div class="panel-heading">
+            <h3 class="panel-title">Team list</h3>
+        </div>
+        <div class="panel-body">
+
+            <!-- Table -->
+            <table class="table">
+                <tr>
+                    <th>#</th>
+                    <th>Name</th>
+                </tr>
+                <%for(var i=0; i<data.length;i++) {%>
+                <tr>
+                    <th> <%=i+1%></th>
+                    <th> <%=data[i].teamname%> </th>
+                </tr>
+                <%}%>
+            </table>
+        </div>
+    </div>
+    <p> &nbsp;</p>
+    <p> &nbsp;</p>
+</div>
+<% include footer.ejs %>
