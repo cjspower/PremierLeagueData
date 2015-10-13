@@ -20,6 +20,7 @@
                 <th>Away</th>
                 <th>Home Goal</th>
                 <th>Away Goal</th>
+                <th> </th>
             </tr>
             <%for(var i=0; i<data.length;i++) {%>
             <tr>
@@ -29,6 +30,9 @@
                 <th> <%=data[i].awayteam%> </th>
                 <th> <%=data[i].homescore%> </th>
                 <th> <%=data[i].awayscore%> </th>
+                <th>
+                    <a class="btn btn-sm btn-primary" href="/edit/<%=data[i].id%>" role="button">edit</a>
+                </th>
             </tr>
             <%}%>
         </table>

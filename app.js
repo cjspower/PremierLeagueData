@@ -22,6 +22,7 @@ client.connect(function(err){
 var matches = require('./routes/matches')(client);
 var update = require('./routes/update')(client);
 var post = require('./routes/post')(client);
+var edit = require('./routes/edit')(client);
 var teams = require('./routes/teams')(client);
 
 // view engine setup
@@ -38,6 +39,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', routes);
 app.use('/team', teams);
+app.use('/edit', edit);
 app.use('/matches', matches);
 app.use('/update', update);
 app.use('/post', post);
