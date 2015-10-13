@@ -78,5 +78,54 @@ module.exports = function(db) {
             }
         });
     });
+
+    router.post('/search', function(req, res) {
+        //console.log(req);
+        var request = req.body.foobar;
+        console.log(request);
+
+        if(Date.parse(request)>0) {
+            db.query('SELECT * FROM allmatches WHERE matchdate=\''+request+'\';', function(err, result) {
+                if(err) {
+                    res.render('oops', {navFirst: "", navUp: "", navTeam: '', errormessage: JSON.stringify(err)});
+                } else {
+                    var ret = [];
+                    if(result.rows.length == 0) {
+                        res.render('oops', {navFirst: "", navUp: "", navTeam: '', errormessage: 'no result fits your search'});
+                    }else {
+                        for (var i = 0; i < result.rows.length; i++) {
+                            ret.push(result.rows[i]);
+                            //console.log(result.rows[i].hometeam);
+                        }
+                        res.render('matchesnoyear', {navFirst: "", navUp: "", navTeam: '', data: ret});
+                    }
+                }
+            });
+        }else {
+            db.query('SELECT * FROM allteam WHERE teamName=\''+request+'\';', function(err, result) {
+                if(err) {
+                    res.render('oops', {navFirst: "", navUp: "", navTeam: '', errormessage: JSON.stringify(err)});
+                } else {
+                    if(result.rows.length == 0) {
+                        res.render('oops', {navFirst: "", navUp: "", navTeam: '', errormessage: 'Team does not exist'});
+                    } else {
+                        db.query('SELECT * FROM allmatches WHERE ' +
+                            'hometeam=\''+request+'\' OR awayteam=\''+request+'\' ORDER BY matchdate DESC;', function(err, result) {
+                            if(result.rows.length==0) {
+                                res.render('oops', {navFirst: "", navUp: "", navTeam: '', errormessage: 'no result fits your search'});
+                            }else {
+                                var ret = [];
+                                for (var i = 0; i < result.rows.length; i++) {
+                                    ret.push(result.rows[i]);
+                                    //console.log(result.rows[i].hometeam);
+                                }
+                                res.render('matchesnoyear', {navFirst: "", navUp: "", navTeam: '', data: ret});
+                            }
+                        });
+                    }
+                }
+            });
+        }
+    });
     return router;
 };

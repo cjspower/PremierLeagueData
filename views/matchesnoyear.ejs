@@ -1,0 +1,45 @@
+<% include header.ejs %>
+<% include navibar.ejs %>
+<div class="container">
+    <div class="page-header">
+        <h1 style="color:darkgray">All Matches in season</h1>
+    </div>
+    <div class="panel panel-default">
+        <!-- Default panel contents -->
+        <div class="panel-heading">
+            <h3 class="panel-title">Match status</h3>
+        </div>
+        <div class="panel-body">
+
+            <!-- Table -->
+            <table class="table">
+                <tr>
+                    <th>#</th>
+                    <th>Date</th>
+                    <th>Home</th>
+                    <th>Away</th>
+                    <th>Home Goal</th>
+                    <th>Away Goal</th>
+                    <th> </th>
+                </tr>
+                <%for(var i=0; i<data.length;i++) {%>
+                <tr>
+                    <th> <%=i+1%></th>
+                    <th> <%=data[i].matchdate.toString().substring(0,15)%> </th>
+                    <th> <%=data[i].hometeam%> </th>
+                    <th> <%=data[i].awayteam%> </th>
+                    <th> <%=data[i].homescore%> </th>
+                    <th> <%=data[i].awayscore%> </th>
+                    <th>
+                        <a class="btn btn-sm btn-primary" href="/edit/<%=data[i].id%>" role="button">edit</a>
+                    </th>
+                </tr>
+                <%}%>
+            </table>
+        </div>
+    </div>
+    <p> &nbsp;</p>
+    <p> &nbsp;</p>
+</div>
+
+<% include footer.ejs %>
